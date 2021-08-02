@@ -13,13 +13,11 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 
-		const user = { username, email, password };
-
 		try {
-			let res = await axios.post("http://localhost:4000/register", { user });
+			let res = await axios.post("http://localhost:4000/register", { username, password, email });
 			if (res.status >= 200 && res.status < 300) {
 				// puts the user object into a cookie
-				setCookie("user", JSON.stringify(user), 30);
+				setCookie("user", JSON.stringify(res.data), 30);
 				window.location.href = "/loggedIn";
 			}
 		} catch (e) {
