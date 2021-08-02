@@ -20,12 +20,6 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
-
-		if (isLoggedIn) {
-			setErrorMessage("You are already logged in.");
-			setShowLinkToSettings(!showLinkToSettings);
-			return false;
-		}
 		const data = await makeLoginRequest("http://localhost:4000/login", { email, password });
 
 		// checks if the request was successful
@@ -56,6 +50,21 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 		return setErrorMessage("email or password is incorrect please try again");
 	};
 
+	if (isLoggedIn) {
+		return (
+			<div>
+				<h1>You are already logged in so you can not login again.</h1>
+				<div>Got to settings to logout if you want to login to a different account.</div>
+				<Link href="/profile/settings">
+					<button>Settings</button>
+				</Link>
+				<Link href="/">
+					<button>Home Page</button>
+				</Link>
+			</div>
+		);
+	}
+
 	interface Data {
 		email: string;
 		password: string;
@@ -63,7 +72,7 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 
 	async function makeLoginRequest(url: string, data: Data) {
 		try {
-			var res = await axios.post(url, { data });
+			var res = await axios.post(url, { email: data.email, password: data.password });
 			if (res.status >= 200 && res.status <= 299) {
 				return { res, statusBoolean: true };
 			} else return { res, statusBoolean: false };
@@ -74,17 +83,8 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 
 	return (
 		<>
-			<div style={{ color: "red" }}>
-				{errorMessage}
-				{showLinkToSettings && (
-					<div>
-						<h3>To log out go to </h3>
-						<Link href="/settings">
-							<button>Settings</button>
-						</Link>
-					</div>
-				)}
-			</div>
+			<div style={{ color: "red" }}>{errorMessage}</div>
+
 			<form onSubmit={handleSubmit}>
 				{/* EMAIL FORM */}
 				<label>
