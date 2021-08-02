@@ -2,7 +2,7 @@ import { FormEvent, ChangeEvent, FC, useState } from "react";
 import axios from "axios";
 
 interface propTypes {
-	setCookie: (key: string, value: any) => string;
+	setCookie: (key: string, value: any, expirationDate: any) => string;
 }
 
 const LoginForm: FC<propTypes> = ({ setCookie }) => {
@@ -16,9 +16,12 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 		const user = { username, email, password };
 
 		try {
-			await axios.post("http://localhost:4000/register", { user });
-			// puts the user object into a cookie
-			setCookie("__user", JSON.stringify(user));
+			let res = await axios.post("http://localhost:4000/register", { user });
+			if (res.status >= 200 && res.status < 300) {
+				// puts the user object into a cookie
+				setCookie("user", JSON.stringify(user), 30);
+				window.location.href = "/loggedIn";
+			}
 		} catch (e) {
 			console.error(e);
 		}
@@ -32,6 +35,8 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 					<span>Username</span>
 					<input
 						required
+						min="6"
+						max="28"
 						type="text"
 						name="username"
 						placeholder="Username"
@@ -56,6 +61,8 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 					<span>Password</span>
 					<input
 						required
+						min="7"
+						max="350"
 						type="password"
 						name="password"
 						placeholder="Password"
