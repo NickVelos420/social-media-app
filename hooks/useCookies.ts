@@ -1,4 +1,9 @@
-export const useCookies = (key?: string, value?: any, getCookies?: boolean) => {
+export const useCookies = (
+	key?: string | boolean,
+	value?: any,
+	expirationDate?: any,
+	getCookies?: boolean
+) => {
 	if (getCookies) {
 		if (process.browser) {
 			// converts the string into an array of arrays with 2 elements in the nested array
@@ -10,9 +15,12 @@ export const useCookies = (key?: string, value?: any, getCookies?: boolean) => {
 		}
 	}
 	// puts the data into a cookie into
-	if (key && value) {
+	if (key && value && expirationDate) {
 		if (process.browser) {
-			const readyToPutToCookie = `__${key}=${value}`;
+			let date = new Date();
+			date.setTime(date.getTime() + expirationDate * 24 * 60 * 60 * 1000);
+
+			const readyToPutToCookie = `${key}=${value}; expires=${date.toUTCString()}`;
 			document.cookie = readyToPutToCookie;
 			return "cookie created";
 		}
