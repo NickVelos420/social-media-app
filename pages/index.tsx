@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from "react";
+import { FC } from "react";
 import Main from "../components/Main";
 import { useCookies } from "../hooks/useCookies";
 
@@ -9,5 +9,4 @@ const index: FC = () => {
 		</>
 	);
 };
-
 export default index;
