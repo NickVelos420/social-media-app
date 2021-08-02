@@ -1,20 +1,16 @@
 import { FC } from "react";
-import Login from "./Login";
+import Register from "./Register";
+import styles from "../styles/forReactComponents/main.module.scss";
 
 interface propTypes {
-	setCookie: (key: string, value: any) => string;
+	setCookie: (key: string, value: any, expirationDate: any) => string;
 }
 
 const Main: FC<propTypes> = ({ setCookie }) => {
 	return (
-		<>
-			<Login setCookie={setCookie} />
-			<br />
-			<span>Don't have an account? Create one</span>
-			<button>
-				<a href="/register">Create An Account</a>
-			</button>
-		</>
+		<div className={styles.body}>
+			<Register setCookie={setCookie} />
+		</div>
 	);
 };
 
