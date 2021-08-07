@@ -45,7 +45,7 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 			setCookie("user", JSON.stringify(userData), 30);
 			// redirects user to the login page
 
-			return (window.location.href = "/loggedIn/");
+			return (window.location.href = "/");
 		}
 		return setErrorMessage("email or password is incorrect please try again");
 	};

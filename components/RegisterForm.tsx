@@ -27,7 +27,7 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 			if (res.status >= 200 && res.status < 300) {
 				// puts the user object into a cookie
 				setCookie("user", JSON.stringify(res.data), 30);
-				window.location.href = "/loggedIn";
+				window.location.href = "/";
 			}
 		} catch (e) {
 			console.error(e);
