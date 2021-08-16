@@ -12,7 +12,6 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 	const [password, setPassword] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
-	const [showLinkToSettings, setShowLinkToSettings] = useState(false);
 
 	useEffect(() => {
 		setIsLoggedIn(useIsLoggedIn());
