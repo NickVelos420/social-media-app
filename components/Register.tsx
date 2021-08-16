@@ -1,24 +1,31 @@
-import Link from "next/link";
 import { FC } from "react";
 import RegisterForm from "./RegisterForm";
 
-interface propTypes {
-	setCookie: (key: string, value: any, expirationDate: any) => string;
+interface UserDataTypes {
+	_id: string;
+	id: string;
+	username: string;
+	email: string;
+	__v: number;
 }
 
-const Register: FC<propTypes> = ({ setCookie }) => {
+interface getCookiesReturnTypes {
+	user?: UserDataTypes;
+}
+interface propTypes {
+	setCookie: (key: string, value: any, expirationDate: any) => string;
+	getCookies: (
+		key: boolean,
+		value: any,
+		expirationDate: any,
+		getCookies: boolean
+	) => getCookiesReturnTypes;
+}
+
+const Register: FC<propTypes> = ({ setCookie, getCookies }) => {
 	return (
 		<>
-			<RegisterForm setCookie={setCookie} />
-			<div>
-				<span>Already have an account?</span>
-				<br />
-				<span>Click </span>
-				<Link href="/login">
-					<button>Here</button>
-				</Link>
-				<span> to login</span>
-			</div>
+			<RegisterForm setCookie={setCookie} getCookies={getCookies} />
 		</>
 	);
 };
