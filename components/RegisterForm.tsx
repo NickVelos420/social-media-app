@@ -1,16 +1,37 @@
-import { FormEvent, ChangeEvent, FC, useState } from "react";
+import { FormEvent, ChangeEvent, FC, useState, useEffect } from "react";
 import axios from "axios";
 import { usePasswordRequirements } from "../hooks/usePasswordRequirements";
+import Link from "next/link";
+
+interface UserDataTypes {
+	_id: string;
+	id: string;
+	username: string;
+	email: string;
+	__v: number;
+}
+
+interface getCookiesReturnTypes {
+	user?: UserDataTypes;
+}
 
 interface propTypes {
 	setCookie: (key: string, value: any, expirationDate: any) => string;
+	getCookies: (
+		key: boolean,
+		value: any,
+		expirationDate: any,
+		getCookies: boolean
+	) => getCookiesReturnTypes;
 }
 
-const LoginForm: FC<propTypes> = ({ setCookie }) => {
+const LoginForm: FC<propTypes> = ({ setCookie, getCookies }) => {
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
+
+	// const userData = getCookies(false, false, false, true)?.user;
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
@@ -88,6 +109,16 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 
 				<input type="submit" value="Register" />
 			</form>
+
+			<div>
+				<span>Already have an account?</span>
+				<br />
+				<span>Click </span>
+				<Link href="/login">
+					<button>Here</button>
+				</Link>
+				<span> to login</span>
+			</div>
 		</>
 	);
 };
