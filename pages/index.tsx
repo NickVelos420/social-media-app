@@ -5,7 +5,7 @@ import { useCookies } from "../hooks/useCookies";
 const index: FC = () => {
 	return (
 		<>
-			<Main setCookie={useCookies} />
+			<Main setCookie={useCookies} getCookies={useCookies} />
 		</>
 	);
 };
