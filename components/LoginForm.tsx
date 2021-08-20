@@ -2,6 +2,7 @@ import { FormEvent, ChangeEvent, FC, useState, useEffect } from "react";
 import axios from "axios";
 import useIsLoggedIn from "../hooks/useIsLoggedIn";
 import Link from "next/link";
+import Head from "next/head";
 
 interface propTypes {
 	setCookie: (key: string, value: any, expirationDate: any) => string;
@@ -12,6 +13,7 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 	const [password, setPassword] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const [passwordType, setPasswordType] = useState<"password" | "text">("password");
 
 	useEffect(() => {
 		setIsLoggedIn(useIsLoggedIn());
@@ -49,6 +51,14 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 		return setErrorMessage("email or password is incorrect please try again");
 	};
 
+	const handleShowPassword = () => {
+		if (passwordType === "password") {
+			return setPasswordType("text");
+		}
+		return setPasswordType("password");
+	};
+
+	// should remove this line because the user gets redirected if they are logged in
 	if (isLoggedIn) {
 		return (
 			<div>
@@ -82,6 +92,16 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 
 	return (
 		<>
+			<Head>
+				<link
+					rel="stylesheet"
+					href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+					integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+					crossOrigin="anonymous"
+					referrerPolicy="no-referrer"
+				/>
+			</Head>
+
 			<div style={{ color: "red" }}>{errorMessage}</div>
 
 			<form onSubmit={handleSubmit}>
@@ -97,15 +117,25 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 				</label>
 
 				{/* PASSWORD FORM */}
-				<label>
-					<span>Password</span>
+				<span>
+					<label htmlFor="password">
+						<span>Password</span>
+					</label>
 					<input
-						type="password"
+						id="password"
 						required
+						type={passwordType}
+						name="password"
 						placeholder="Password"
 						onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
 					/>
-				</label>
+
+					{passwordType === "password" ? (
+						<i className="fa fa-eye" onClick={handleShowPassword} />
+					) : (
+						<i className="fa fa-eye-slash" onClick={handleShowPassword} />
+					)}
+				</span>
 				<input type="submit" />
 			</form>
 		</>

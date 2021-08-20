@@ -1,7 +1,8 @@
-import { FormEvent, ChangeEvent, FC, useState, useEffect } from "react";
+import { FormEvent, ChangeEvent, FC, useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { usePasswordRequirements } from "../hooks/usePasswordRequirements";
 import Link from "next/link";
+import Head from "next/head";
 
 interface UserDataTypes {
 	_id: string;
@@ -30,6 +31,7 @@ const LoginForm: FC<propTypes> = ({ setCookie, getCookies }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
+	const [passwordType, setPasswordType] = useState<"password" | "text">("password");
 
 	// const userData = getCookies(false, false, false, true)?.user;
 
@@ -55,8 +57,25 @@ const LoginForm: FC<propTypes> = ({ setCookie, getCookies }) => {
 		}
 	};
 
+	const handleShowPassword = () => {
+		if (passwordType === "text") {
+			return setPasswordType("password");
+		}
+		return setPasswordType("text");
+	};
+
 	return (
 		<>
+			<Head>
+				<link
+					rel="stylesheet"
+					href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+					integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+					crossOrigin="anonymous"
+					referrerPolicy="no-referrer"
+				/>
+			</Head>
+
 			<div style={{ color: "#e01919", fontSize: "1.5rem" }}>{error}</div>
 			<div>
 				<span>Password Validation Rules</span>
@@ -70,6 +89,7 @@ const LoginForm: FC<propTypes> = ({ setCookie, getCookies }) => {
 					</li>
 				</ul>
 			</div>
+
 			<form onSubmit={handleSubmit}>
 				{/* USERNAME FORM */}
 				<label>
@@ -96,17 +116,25 @@ const LoginForm: FC<propTypes> = ({ setCookie, getCookies }) => {
 				</label>
 
 				{/* PASSWORD FORM */}
-				<label>
-					<span>Password</span>
+				<span>
+					<label htmlFor="password">
+						<span>Password</span>
+					</label>
 					<input
+						id="password"
 						required
-						type="password"
+						type={passwordType}
 						name="password"
 						placeholder="Password"
 						onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
 					/>
-				</label>
 
+					{passwordType === "password" ? (
+						<i className="fa fa-eye" onClick={handleShowPassword} />
+					) : (
+						<i className="fa fa-eye-slash" onClick={handleShowPassword} />
+					)}
+				</span>
 				<input type="submit" value="Register" />
 			</form>
 
