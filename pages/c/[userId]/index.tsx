@@ -8,7 +8,7 @@ const index: FC = () => {
 	const { userId } = router.query;
 
 	const userData = useCookies(false, false, false, true)?.user;
-	console.log(userData);
+
 	useEffect(() => {
 		if (userData) {
 			const userDataJSONId = JSON.parse(userData).id;
@@ -16,7 +16,6 @@ const index: FC = () => {
 			// not using the userId variable declared above because when the useEffect runs
 			// it's value is undefined
 			const userId = window.location.pathname.split("/").filter(e => e.trim() !== "")[1];
-			console.log(window.location.pathname);
 			if (userId !== userDataJSONId) {
 				return setError("The id provided in the search parameters is not valid");
 			}
@@ -27,7 +26,11 @@ const index: FC = () => {
 		return <h1>{error}</h1>;
 	}
 
-	return <div>{userId}</div>;
+	return (
+		<>
+			<div>{userId}</div>
+		</>
+	);
 };
 
 export default index;
