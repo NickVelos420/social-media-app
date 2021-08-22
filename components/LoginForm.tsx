@@ -131,9 +131,13 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 					/>
 
 					{passwordType === "password" ? (
-						<i className="fa fa-eye" onClick={handleShowPassword} />
+						<i className="fa fa-eye" onClick={handleShowPassword} style={{ cursor: "pointer" }} />
 					) : (
-						<i className="fa fa-eye-slash" onClick={handleShowPassword} />
+						<i
+							className="fa fa-eye-slash"
+							onClick={handleShowPassword}
+							style={{ cursor: "pointer" }}
+						/>
 					)}
 				</span>
 				<input type="submit" />
