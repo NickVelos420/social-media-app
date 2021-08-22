@@ -23,7 +23,6 @@ export const redirectIfUserIsLoggedIn: GetServerSideProps = async context => {
 		userData = JSON.parse(cookies.user);
 	}
 
-	console.log(userData);
 	if (userData) {
 		return {
 			redirect: {
