@@ -8,7 +8,6 @@ export const redirectIfUserIsntLoggedIn: GetServerSideProps = async context => {
 		password: string;
 		username: string;
 	}
-
 	type UserDataType = IUserData | undefined;
 
 	let cookies: any;
