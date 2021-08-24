@@ -4,8 +4,7 @@ import Register from "../components/Register";
 import { useCookies } from "../hooks/useCookies";
 import { redirectIfUserIsLoggedIn } from "../randomFunctions/redirectIfUserIsLoggedIn";
 
-const register: FC = props => {
-	console.log(props);
+const register: FC = () => {
 	return (
 		<div>
 			<Register setCookie={useCookies} getCookies={useCookies} />
