@@ -1,4 +1,4 @@
-import { FormEvent, ChangeEvent, FC, useState, useEffect, useRef } from "react";
+import { FormEvent, ChangeEvent, FC, useState } from "react";
 import axios from "axios";
 import { usePasswordRequirements } from "../hooks/usePasswordRequirements";
 import Link from "next/link";
@@ -33,8 +33,6 @@ const LoginForm: FC<propTypes> = ({ setCookie, getCookies }) => {
 	const [error, setError] = useState("");
 	const [passwordType, setPasswordType] = useState<"password" | "text">("password");
 
-	// const userData = getCookies(false, false, false, true)?.user;
-
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 		const { message, booleanValue } = usePasswordRequirements(password);
@@ -46,10 +44,17 @@ const LoginForm: FC<propTypes> = ({ setCookie, getCookies }) => {
 		setError("");
 
 		try {
-			let res = await axios.post("http://localhost:4000/register", { username, password, email });
+			let res = await axios.post("http://localhost:4000/register", {
+				username,
+				password,
+				email,
+				encryptBeforeReturn: true,
+			});
+
+			console.log(res.data);
 			if (res.status >= 200 && res.status < 300) {
 				// puts the user object into a cookie
-				setCookie("user", JSON.stringify(res.data), 30);
+				setCookie("user", res.data, 30);
 				window.location.href = "/";
 			}
 		} catch (e) {

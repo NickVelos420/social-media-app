@@ -21,7 +21,11 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
-		const data = await makeLoginRequest("http://localhost:4000/login", { email, password });
+		const data = await makeLoginRequest("http://localhost:4000/login", {
+			email,
+			password,
+			encryptBeforeReturn: true,
+		});
 
 		// checks if the request was successful
 		if (data?.statusBoolean) {
@@ -43,7 +47,7 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 				password,
 			};
 
-			setCookie("user", JSON.stringify(userData), 30);
+			setCookie("user", data.res.data, 30);
 			// redirects user to the login page
 
 			return (window.location.href = "/");
@@ -77,11 +81,16 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 	interface Data {
 		email: string;
 		password: string;
+		encryptBeforeReturn: boolean;
 	}
 
 	async function makeLoginRequest(url: string, data: Data) {
 		try {
-			var res = await axios.post(url, { email: data.email, password: data.password });
+			var res = await axios.post(url, {
+				email: data.email,
+				password: data.password,
+				encryptBeforeReturn: data.encryptBeforeReturn,
+			});
 			if (res.status >= 200 && res.status <= 299) {
 				return { res, statusBoolean: true };
 			} else return { res, statusBoolean: false };
