@@ -2,13 +2,7 @@ import { GetServerSideProps } from "next";
 import cookie from "cookie";
 
 export const redirectIfUserIsntLoggedIn: GetServerSideProps = async context => {
-	interface IUserData {
-		id: string;
-		email: string;
-		password: string;
-		username: string;
-	}
-	type UserDataType = IUserData | undefined;
+	type UserDataType = string | undefined;
 
 	let cookies: any;
 
@@ -16,11 +10,7 @@ export const redirectIfUserIsntLoggedIn: GetServerSideProps = async context => {
 		cookies = cookie.parse(context.req.headers.cookie);
 	}
 
-	let userData: UserDataType;
-
-	if (cookies?.user) {
-		userData = JSON.parse(cookies.user);
-	}
+	let userData: UserDataType = cookies?.user;
 
 	if (!userData) {
 		return {
