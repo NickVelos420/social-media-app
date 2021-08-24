@@ -1,5 +1,6 @@
 import { GetServerSideProps } from "next";
 import cookie from "cookie";
+import axios from "axios";
 
 export const redirectIfUserIsLoggedIn: GetServerSideProps = async context => {
 	interface IUserData {
@@ -20,13 +21,16 @@ export const redirectIfUserIsLoggedIn: GetServerSideProps = async context => {
 	let userData: UserDataType;
 
 	if (cookies?.user) {
-		userData = JSON.parse(cookies.user);
+		const res = await axios.post("http://localhost:4000/decrypt-user", {
+			encryptedUser: cookies.user,
+		});
+		userData = res.data;
 	}
 
 	if (userData) {
 		return {
 			redirect: {
-				destination: `/c/${userData.id}`,
+				destination: `/c/${userData?.id}`,
 				permanent: false,
 			},
 		};
