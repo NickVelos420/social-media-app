@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useCookies } from "../../../hooks/useCookies";
+import Layout from "../../../components/Layout";
 
 const index: FC = () => {
 	const [error, setError] = useState("");
@@ -11,6 +12,7 @@ const index: FC = () => {
 
 	useEffect(() => {
 		if (userData) {
+			// have to make req to backend to decrypt the cookie
 			const userDataJSONId = JSON.parse(userData).id;
 
 			// not using the userId variable declared above because when the useEffect runs
@@ -27,9 +29,9 @@ const index: FC = () => {
 	}
 
 	return (
-		<>
+		<Layout title="Chats">
 			<div>{userId}</div>
-		</>
+		</Layout>
 	);
 };
 
