@@ -149,7 +149,7 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 						/>
 					)}
 				</span>
-				<input type="submit" />
+				<input type="submit" value="Sign In" />
 			</form>
 		</>
 	);

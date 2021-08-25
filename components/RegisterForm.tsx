@@ -144,7 +144,7 @@ const LoginForm: FC<propTypes> = ({ setCookie, getCookies }) => {
 						/>
 					)}
 				</span>
-				<input type="submit" value="Register" />
+				<input type="submit" value="Sign Up" />
 			</form>
 
 			<div>
