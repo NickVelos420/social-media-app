@@ -1,6 +1,5 @@
 import { FC } from "react";
 import Register from "./Register";
-import styles from "../styles/forReactComponents/main.module.scss";
 
 interface UserDataTypes {
 	_id: string;
@@ -26,7 +25,7 @@ interface propTypes {
 
 const Main: FC<propTypes> = ({ setCookie, getCookies }) => {
 	return (
-		<div className={styles.body}>
+		<div>
 			<Register setCookie={setCookie} getCookies={getCookies} />
 		</div>
 	);
