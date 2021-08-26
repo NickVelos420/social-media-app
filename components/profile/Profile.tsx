@@ -5,29 +5,21 @@ import { useCookies } from "../../hooks/useCookies";
 const userDefaultImage = require("../../images/userDefaultImage.jpg");
 const settingsGear = require("../../images/gearIcon.png");
 
-interface User {
-	_id: string;
+interface IUser {
 	id: string;
 	username: string;
 	email: string;
 	password: string;
-	__v: number;
 }
 
-const userCookie = useCookies(false, false, false, true)?.user;
+interface PropTypes {
+	user?: IUser;
+}
 
-const Profile: FC = props => {
-	const [username, setUsername] = useState("");
+const Profile: FC<PropTypes> = props => {
+	const [username, setUsername] = useState(props?.user?.username);
 	const [chatRooms, setChatRooms] = useState(["chat room"]);
-	const [friends, setFriends] = useState([]);
-
-	useEffect(() => {
-		if (userCookie) {
-			const userCookieJSON: User = JSON.parse(userCookie);
-
-			return setUsername(userCookieJSON.username);
-		}
-	}, []);
+	const [friends, setFriends] = useState();
 
 	return (
 		<div>
