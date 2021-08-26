@@ -1,8 +1,11 @@
 import { GetServerSideProps } from "next";
 import cookie from "cookie";
-import axios from "axios";
+import Cookies from "cookies";
+import axios, { AxiosResponse } from "axios";
 
 export const redirectIfUserIsLoggedIn: GetServerSideProps = async context => {
+	const cookies = new Cookies(context.req, context.res);
+
 	interface IUserData {
 		id: string;
 		email: string;
@@ -12,19 +15,27 @@ export const redirectIfUserIsLoggedIn: GetServerSideProps = async context => {
 
 	type UserDataType = IUserData | undefined;
 
-	let cookies: any;
-
-	if (typeof context.req.headers.cookie === "string") {
-		cookies = cookie.parse(context.req.headers.cookie);
-	}
+	const encryptedUser = cookies.get("user");
 
 	let userData: UserDataType;
 
-	if (cookies?.user) {
-		const res = await axios.post("http://localhost:4000/decrypt-user", {
-			encryptedUser: cookies.user,
-		});
-		userData = res.data;
+	if (encryptedUser) {
+		try {
+			const res = await axios.post("http://localhost:4000/decrypt-user", {
+				encryptedUser,
+			});
+
+			userData = res.data;
+		} catch (e) {
+			// removing the cookies because the encrypted string is missing some thing
+			cookies.set("user", "", { expires: new Date(1969, 11, 12) });
+			return {
+				redirect: {
+					destination: "/register",
+					permanent: false,
+				},
+			};
+		}
 	}
 
 	if (userData) {
