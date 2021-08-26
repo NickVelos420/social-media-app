@@ -4,10 +4,10 @@ import { GetServerSideProps } from "next";
 import { redirectIfUserIsntLoggedIn } from "../../randomFunctions/redirectIfIsntLoggedIn";
 import Layout from "../../components/Layout";
 
-const index: FC = () => {
+const index: FC = props => {
 	return (
 		<Layout title="Profile">
-			<Profile />
+			<Profile {...props} />
 		</Layout>
 	);
 };
