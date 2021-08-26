@@ -1,6 +1,5 @@
 import { FormEvent, ChangeEvent, FC, useState, useEffect } from "react";
 import axios from "axios";
-import useIsLoggedIn from "../hooks/useIsLoggedIn";
 import Link from "next/link";
 import Head from "next/head";
 
@@ -12,12 +11,7 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [passwordType, setPasswordType] = useState<"password" | "text">("password");
-
-	useEffect(() => {
-		setIsLoggedIn(useIsLoggedIn());
-	}, []);
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
@@ -62,22 +56,6 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 		return setPasswordType("password");
 	};
 
-	// should remove this line because the user gets redirected if they are logged in
-	if (isLoggedIn) {
-		return (
-			<div>
-				<h1>You are already logged in so you can not login again.</h1>
-				<div>Got to settings to logout if you want to login to a different account.</div>
-				<Link href="/profile/settings">
-					<button>Settings</button>
-				</Link>
-				<Link href="/">
-					<button>Home Page</button>
-				</Link>
-			</div>
-		);
-	}
-
 	interface Data {
 		email: string;
 		password: string;
@@ -119,6 +97,7 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 					<span>Email</span>
 					<input
 						type="email"
+						name="email"
 						required
 						placeholder="Email"
 						onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
