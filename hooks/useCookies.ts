@@ -1,28 +1,34 @@
-export const useCookies = (
-	key?: string | boolean,
-	value?: any,
-	expirationDate?: any,
-	getCookies?: boolean
-) => {
-	if (getCookies) {
-		if (process.browser) {
-			// converts the string into an array of arrays with 2 elements in the nested array
-			const cookies = document.cookie.split(";").map(cookie => cookie.trim().split("="));
-			if (cookies) {
-				// turns the array into an object
-				return Object.fromEntries(cookies);
-			}
-		}
-	}
-	// puts the data into a cookie into
-	if (key && value && expirationDate) {
-		if (process.browser) {
-			let date = new Date();
-			date.setTime(date.getTime() + expirationDate * 24 * 60 * 60 * 1000);
+import Cookies from "universal-cookie";
 
-			const readyToPutToCookie = `${key}=${value}; expires=${date.toUTCString()}`;
-			document.cookie = readyToPutToCookie;
+export const useCookies = (
+	name: string,
+	value: string | undefined,
+	expirationDate: number | undefined,
+	writeCookie: boolean,
+	getCookie?: boolean,
+	updateCookie?: boolean,
+	deleteCookie?: boolean
+) => {
+	const cookies = new Cookies();
+
+	if (getCookie) {
+		if (name === "all cookies") return cookies.getAll();
+		return cookies.get(name);
+	}
+
+	if (writeCookie || updateCookie) {
+		if (expirationDate) {
+			cookies.set(name, value, { maxAge: 60 * 60 * 24 * expirationDate });
 			return "cookie created";
 		}
+		cookies.set(name, value);
+		return "cookies created";
 	}
+
+	if (deleteCookie) {
+		cookies.remove(name);
+		return "cookie deleted";
+	}
+
+	return "an error occurred";
 };
