@@ -8,12 +8,12 @@ const index: FC = () => {
 	const router = useRouter();
 	const { userId } = router.query;
 
-	const userData = useCookies(false, false, false, true)?.user;
+	const userDataEncrypted = useCookies("user", undefined, undefined, false, true);
 
 	useEffect(() => {
-		if (userData) {
+		if (userDataEncrypted) {
 			// have to make req to backend to decrypt the cookie
-			const userDataJSONId = JSON.parse(userData).id;
+			const userDataJSONId = JSON.parse(userDataEncrypted).id;
 
 			// not using the userId variable declared above because when the useEffect runs
 			// it's value is undefined
