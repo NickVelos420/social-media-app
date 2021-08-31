@@ -1,25 +1,15 @@
 import { FC } from "react";
 import RegisterForm from "./RegisterForm";
 
-interface UserDataTypes {
-	_id: string;
-	id: string;
-	username: string;
-	email: string;
-	__v: number;
-}
-
-interface getCookiesReturnTypes {
-	user?: UserDataTypes;
-}
 interface propTypes {
-	setCookie: (key: string, value: any, expirationDate: any) => string;
+	setCookie: (key: string, value: string, expirationDate: number, writeCookie: boolean) => string;
 	getCookies: (
-		key: boolean,
-		value: any,
-		expirationDate: any,
+		key: string,
+		value: string,
+		expirationDate: number,
+		writeCookie: boolean,
 		getCookies: boolean
-	) => getCookiesReturnTypes;
+	) => void;
 }
 
 const Register: FC<propTypes> = ({ setCookie, getCookies }) => {

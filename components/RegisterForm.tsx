@@ -4,26 +4,15 @@ import { usePasswordRequirements } from "../hooks/usePasswordRequirements";
 import Link from "next/link";
 import Head from "next/head";
 
-interface UserDataTypes {
-	_id: string;
-	id: string;
-	username: string;
-	email: string;
-	__v: number;
-}
-
-interface getCookiesReturnTypes {
-	user?: UserDataTypes;
-}
-
 interface propTypes {
-	setCookie: (key: string, value: any, expirationDate: any) => string;
+	setCookie: (key: string, value: string, expirationDate: number, writeCookie: boolean) => string;
 	getCookies: (
-		key: boolean,
-		value: any,
-		expirationDate: any,
+		key: string,
+		value: string,
+		expirationDate: number,
+		writeCookie: boolean,
 		getCookies: boolean
-	) => getCookiesReturnTypes;
+	) => void;
 }
 
 const LoginForm: FC<propTypes> = ({ setCookie, getCookies }) => {
@@ -54,7 +43,7 @@ const LoginForm: FC<propTypes> = ({ setCookie, getCookies }) => {
 			console.log(res.data);
 			if (res.status >= 200 && res.status < 300) {
 				// puts the user object into a cookie
-				setCookie("user", res.data, 30);
+				setCookie("user", res.data, 30, true);
 				window.location.href = "/";
 			}
 		} catch (e) {

@@ -2,7 +2,7 @@ import { FC } from "react";
 import LoginForm from "./LoginForm";
 
 interface propTypes {
-	setCookie: (key: string, value: any, expirationDate: any) => string;
+	setCookie: (key: string, value: string, expirationDate: number, writeCookie: boolean) => string;
 }
 
 const Login: FC<propTypes> = ({ setCookie }) => {

@@ -4,7 +4,7 @@ import Link from "next/link";
 import Head from "next/head";
 
 interface propTypes {
-	setCookie: (key: string, value: any, expirationDate: any) => string;
+	setCookie: (key: string, value: string, expirationDate: number, writeCookie: boolean) => string;
 }
 
 const LoginForm: FC<propTypes> = ({ setCookie }) => {
@@ -41,7 +41,7 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 				password,
 			};
 
-			setCookie("user", data.res.data, 30);
+			setCookie("user", data.res.data, 30, true);
 			// redirects user to the login page
 
 			return (window.location.href = "/");
