@@ -17,12 +17,19 @@ export const useCookies = (
 	}
 
 	if (writeCookie || updateCookie) {
-		if (expirationDate) {
-			cookies.set(name, value, { maxAge: 60 * 60 * 24 * expirationDate });
-			return "cookie created";
+		if (process.browser) {
+			if (expirationDate) {
+				const date = new Date();
+				date.setTime(date.getTime() + expirationDate * 24 * 60 * 60 * 1000);
+
+				const cookieReadyToSet = `${name}=${value}; expires=${date.toUTCString()}`;
+				document.cookie = cookieReadyToSet;
+				return "cookie created";
+			}
+
+			document.cookie = `${name}=${value}`;
+			return "cookies created";
 		}
-		cookies.set(name, value);
-		return "cookies created";
 	}
 
 	if (deleteCookie) {
