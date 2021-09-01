@@ -22,7 +22,7 @@ export const redirectIfUserIsntLoggedIn: GetServerSideProps = async context => {
 
 	if (userCookie) {
 		try {
-			const res = await axios.post(`${getURLFromEnv(false)}/decrypt-user`, {
+			const res = await axios.post(`http://localhost:4000/decrypt-user`, {
 				encryptedUser: userCookie,
 			});
 			userData = res.data;

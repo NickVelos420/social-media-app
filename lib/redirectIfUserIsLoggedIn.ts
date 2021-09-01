@@ -2,7 +2,6 @@ import { GetServerSideProps } from "next";
 import cookie from "cookie";
 import Cookies from "cookies";
 import axios, { AxiosResponse } from "axios";
-import getURLFromEnv from "./getURLFromEnv";
 
 export const redirectIfUserIsLoggedIn: GetServerSideProps = async context => {
 	const cookies = new Cookies(context.req, context.res);
@@ -22,14 +21,12 @@ export const redirectIfUserIsLoggedIn: GetServerSideProps = async context => {
 
 	if (encryptedUser) {
 		try {
-			const res = await axios.post(`${getURLFromEnv(false)}/decrypt-user`, {
+			const res = await axios.post(`http://localhost:4000/decrypt-user`, {
 				encryptedUser,
 			});
 
 			userData = res.data;
 		} catch (e) {
-			// removing the cookies because the encrypted string is missing some thing
-			console.error(e);
 			cookies.set("user", "", { expires: new Date(1969, 11, 12) });
 			return {
 				redirect: {
