@@ -2,7 +2,6 @@ import { GetServerSideProps } from "next";
 import cookie from "cookie";
 import Cookies from "cookies";
 import axios from "axios";
-import getURLFromEnv from "./getURLFromEnv";
 
 export const redirectIfUserIsntLoggedIn: GetServerSideProps = async context => {
 	const cookies = new Cookies(context.req, context.res);

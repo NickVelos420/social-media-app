@@ -1,7 +1,7 @@
 import { FC } from "react";
 import Profile from "../../components/profile/Profile";
 import { GetServerSideProps } from "next";
-import { redirectIfUserIsntLoggedIn } from "../../lib/redirectIfIsntLoggedIn";
+import { redirectIfUserIsntLoggedIn } from "../../utils/redirectIfIsntLoggedIn";
 import Layout from "../../components/Layout";
 
 const index: FC = props => {

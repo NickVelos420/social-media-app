@@ -3,7 +3,7 @@ import { FC } from "react";
 import Layout from "../components/Layout";
 import Register from "../components/Register";
 import { useCookies } from "../hooks/useCookies";
-import { redirectIfUserIsLoggedIn } from "../lib/redirectIfUserIsLoggedIn";
+import { redirectIfUserIsLoggedIn } from "../utils/redirectIfUserIsLoggedIn";
 
 const register: FC = () => {
 	return (
