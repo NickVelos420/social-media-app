@@ -12,7 +12,6 @@ const Settings: FC = () => {
 			>
 				Log Out
 			</button>
-			{showLogout && <Logout />}
 		</div>
 	);
 };
