@@ -40,7 +40,7 @@ export const redirectIfUserIsLoggedIn: GetServerSideProps = async context => {
 	if (userData) {
 		return {
 			redirect: {
-				destination: `/c/${userData?.id}`,
+				destination: `/profile`,
 				permanent: false,
 			},
 		};
