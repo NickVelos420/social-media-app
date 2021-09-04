@@ -1,4 +1,4 @@
-import Cookies from "universal-cookie";
+import cookies from "js-cookie";
 
 export const useCookies = (
 	name: string,
@@ -9,30 +9,29 @@ export const useCookies = (
 	updateCookie?: boolean,
 	deleteCookie?: boolean
 ) => {
-	const cookies = new Cookies();
-
 	if (getCookie) {
-		if (name === "all cookies") return cookies.getAll();
+		if (name === "all cookies") return cookies.get();
 		return cookies.get(name);
 	}
 
-	if (writeCookie || updateCookie) {
-		if (process.browser) {
-			if (expirationDate) {
-				const date = new Date();
-				date.setTime(date.getTime() + expirationDate * 24 * 60 * 60 * 1000);
+	if (value) {
+		if (writeCookie || updateCookie) {
+			if (process.browser) {
+				if (expirationDate) {
+					const date = new Date();
+					date.setTime(date.getTime() + expirationDate * 24 * 60 * 60 * 1000);
 
-				const cookieReadyToSet = `${name}=${value}; expires=${date.toUTCString()}`;
-				document.cookie = cookieReadyToSet;
-				return "cookie created";
+					cookies.set(name, value, { expires: date });
+					return "cookie created";
+				}
+
+				cookies.set(name, value);
+				return "cookies created";
 			}
-
-			document.cookie = `${name}=${value}`;
-			return "cookies created";
 		}
 	}
 
-	if (deleteCookie) {
+	if (deleteCookie && name) {
 		cookies.remove(name);
 		return "cookie deleted";
 	}
