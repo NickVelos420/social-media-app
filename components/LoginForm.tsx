@@ -4,7 +4,7 @@ import Link from "next/link";
 import Head from "next/head";
 
 interface propTypes {
-	setCookie: (key: string, value: string, expirationDate: number, writeCookie: boolean) => string;
+	setCookie: (key: string, value: string, expirationDate: number, writeCookie: boolean) => void;
 }
 
 const LoginForm: FC<propTypes> = ({ setCookie }) => {

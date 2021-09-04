@@ -2,7 +2,7 @@ import { FC } from "react";
 import RegisterForm from "./RegisterForm";
 
 interface propTypes {
-	setCookie: (key: string, value: string, expirationDate: number, writeCookie: boolean) => string;
+	setCookie: (key: string, value: string, expirationDate: number, writeCookie: boolean) => void;
 	getCookies: (
 		key: string,
 		value: string,
