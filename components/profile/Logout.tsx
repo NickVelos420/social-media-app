@@ -1,18 +1,7 @@
-import Link from "next/link";
-import { FC, useState } from "react";
+import { FC } from "react";
 import { logout } from "../../utils/auth";
 
-interface propTypes {
-	username: string;
-}
-
-const Logout: FC<propTypes> = ({ username }) => {
-	const [wantsLogout, setWantsLogout] = useState(false);
-
-	// First of all we don't need the username so remove that
-	// just have a dropdown that says if you accept to logout instead of the page
-	// find a way to delete cookies
-
+const Logout: FC = () => {
 	return (
 		<div>
 			<form>
