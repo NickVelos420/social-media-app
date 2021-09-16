@@ -12,6 +12,13 @@ const Layout: FC<propTypes> = ({ children, title }) => {
 				<title>{title}</title>
 			</Head>
 			{children}
+			<style jsx global>
+				{`
+					body {
+						margin: 0;
+					}
+				`}
+			</style>
 		</div>
 	);
 };
