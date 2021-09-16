@@ -1,15 +1,10 @@
 import { FC } from "react";
+import { IUseCookiesObject } from "../hooks/useCookies";
 import RegisterForm from "./RegisterForm";
 
 interface propTypes {
-	setCookie: (key: string, value: string, expirationDate: number, writeCookie: boolean) => void;
-	getCookies: (
-		key: string,
-		value: string,
-		expirationDate: number,
-		writeCookie: boolean,
-		getCookies: boolean
-	) => void;
+	setCookie: (object: IUseCookiesObject) => void;
+	getCookies: (object: IUseCookiesObject) => void;
 }
 
 const Register: FC<propTypes> = ({ setCookie, getCookies }) => {

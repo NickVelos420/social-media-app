@@ -3,16 +3,11 @@ import axios from "axios";
 import { usePasswordRequirements } from "../hooks/usePasswordRequirements";
 import Link from "next/link";
 import Head from "next/head";
+import { IUseCookiesObject } from "../hooks/useCookies";
 
 interface propTypes {
-	setCookie: (key: string, value: string, expirationDate: number, writeCookie: boolean) => void;
-	getCookies: (
-		key: string,
-		value: string,
-		expirationDate: number,
-		writeCookie: boolean,
-		getCookies: boolean
-	) => void;
+	setCookie: (object: IUseCookiesObject) => void;
+	getCookies: (object: IUseCookiesObject) => void;
 }
 
 const LoginForm: FC<propTypes> = ({ setCookie, getCookies }) => {
@@ -43,7 +38,7 @@ const LoginForm: FC<propTypes> = ({ setCookie, getCookies }) => {
 			console.log(res.data);
 			if (res.status >= 200 && res.status < 300) {
 				// puts the user object into a cookie
-				setCookie("user", res.data, 30, true);
+				setCookie({ name: "user", writeCookie: true, value: res.data, expirationDate: 30 });
 				window.location.href = "/";
 			}
 		} catch (e) {

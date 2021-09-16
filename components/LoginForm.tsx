@@ -1,10 +1,10 @@
 import { FormEvent, ChangeEvent, FC, useState, useEffect } from "react";
 import axios from "axios";
-import Link from "next/link";
 import Head from "next/head";
+import { IUseCookiesObject } from "../hooks/useCookies";
 
 interface propTypes {
-	setCookie: (key: string, value: string, expirationDate: number, writeCookie: boolean) => void;
+	setCookie: (object: IUseCookiesObject) => void;
 }
 
 const LoginForm: FC<propTypes> = ({ setCookie }) => {
@@ -24,24 +24,13 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 		// checks if the request was successful
 		if (data?.statusBoolean) {
 			setErrorMessage("");
-			interface ResDataTypes {
-				_id: string;
-				id: string;
-				username: string;
-				email: string;
-				__v: number;
-			}
 
-			let resData = data?.res.data as ResDataTypes;
-
-			const userData = {
-				id: resData.id,
-				username: resData.username,
-				email: resData.email,
-				password,
-			};
-
-			setCookie("user", data.res.data, 30, true);
+			setCookie({
+				name: "user",
+				value: data.res.data,
+				expirationDate: 30,
+				writeCookie: true,
+			});
 			// redirects user to the login page
 
 			return (window.location.href = "/");

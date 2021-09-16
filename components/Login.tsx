@@ -1,8 +1,9 @@
 import { FC } from "react";
+import { IUseCookiesObject } from "../hooks/useCookies";
 import LoginForm from "./LoginForm";
 
 interface propTypes {
-	setCookie: (key: string, value: string, expirationDate: number, writeCookie: boolean) => void;
+	setCookie: (object: IUseCookiesObject) => void;
 }
 
 const Login: FC<propTypes> = ({ setCookie }) => {
