@@ -1,7 +1,6 @@
 import { GetServerSideProps } from "next";
-import cookie from "cookie";
 import Cookies from "cookies";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 
 export const redirectIfUserIsLoggedIn: GetServerSideProps = async context => {
 	const cookies = new Cookies(context.req, context.res);
