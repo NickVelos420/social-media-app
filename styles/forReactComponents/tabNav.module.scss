@@ -1,0 +1,29 @@
+$tab-border-color: hsla(0, 0%, 70%, 0.905);
+$tab-active-background-color: hsl(215, 98%, 52%);
+$non-active-tab-text: $tab-active-background-color;
+
+.active {
+	background-color: $tab-active-background-color !important;
+}
+
+.tab {
+	background-color: hsl(0, 100%, 100%);
+	width: 28vh;
+	padding: 1rem 0.3rem 1rem 0.3rem;
+	border-bottom: 1px solid $tab-border-color;
+	border-right: 1px solid $tab-border-color;
+	margin: 0;
+
+	&:hover {
+		cursor: pointer;
+	}
+}
+
+.tabText {
+	color: hsl(36, 10%, 90%);
+	margin-left: 0.5rem;
+}
+
+.nonActiveTabText {
+	color: hsl(215, 98%, 52%) !important;
+}
