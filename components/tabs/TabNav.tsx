@@ -1,4 +1,5 @@
 import { FC } from "react";
+import styles from "../../styles/forReactComponents/tabNav.module.scss";
 
 interface propTypes {
 	tabs: string[];
@@ -8,21 +9,27 @@ interface propTypes {
 
 const TabNav: FC<propTypes> = ({ children, tabs, selectedTab, setSelectedTab }) => {
 	return (
-		<div>
-			<ul>
+		<div className={styles.container}>
+			<div className={`${styles.tabsContainer}`}>
 				{tabs.map(tab => {
-					const active = selectedTab === tab ? "active " : "";
+					const activeTab = selectedTab === tab ? styles.active : "";
+					const nonActiveTabText = !activeTab ? styles.nonActiveTabText : "";
 
 					return (
-						<li key={tab}>
-							<a className={active} onClick={() => setSelectedTab(tab)}>
-								{tab}
-							</a>
-						</li>
+						<div
+							key={tab}
+							className={`${activeTab} ${styles.tab} `}
+							onClick={() => setSelectedTab(tab)}
+						>
+							<span className={`${styles.tabText} ${nonActiveTabText}`}>{tab}</span>
+						</div>
 					);
 				})}
-			</ul>
-			{children}
+			</div>
+
+			<div className={styles.childrenContainer}>
+				<div className={styles.children}>{children}</div>
+			</div>
 		</div>
 	);
 };
