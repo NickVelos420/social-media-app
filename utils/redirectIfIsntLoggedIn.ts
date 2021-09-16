@@ -47,5 +47,10 @@ export const redirectIfUserIsntLoggedIn: GetServerSideProps = async context => {
 		};
 	}
 
-	return { props: { url: context.resolvedUrl, user: userData } };
+	return {
+		props: {
+			url: context.resolvedUrl,
+			user: { username: userData.username, email: userData.email, id: userData.id },
+		},
+	};
 };
