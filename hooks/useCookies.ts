@@ -1,14 +1,24 @@
 import cookies from "js-cookie";
 
-export const useCookies = (
-	name: string,
-	value: string | undefined,
-	expirationDate: number | undefined,
-	writeCookie: boolean,
-	getCookie?: boolean,
-	updateCookie?: boolean,
-	deleteCookie?: boolean
-) => {
+export interface IUseCookiesObject {
+	name: string;
+	value?: string;
+	expirationDate?: number;
+	writeCookie?: boolean;
+	getCookie?: boolean;
+	updateCookie?: boolean;
+	deleteCookie?: boolean;
+}
+
+export const useCookies = ({
+	name,
+	value,
+	expirationDate,
+	writeCookie,
+	getCookie,
+	updateCookie,
+	deleteCookie,
+}: IUseCookiesObject) => {
 	if (getCookie) {
 		if (name === "all cookies") return cookies.get();
 		return cookies.get(name);
