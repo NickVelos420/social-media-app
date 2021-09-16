@@ -1,6 +1,6 @@
 import { FormEvent, ChangeEvent, FC, useState } from "react";
 import axios from "axios";
-import { usePasswordRequirements } from "../hooks/usePasswordRequirements";
+import { addPasswordRequirements } from "../utils/auth";
 import Link from "next/link";
 import Head from "next/head";
 import { IUseCookiesObject } from "../hooks/useCookies";
@@ -19,7 +19,7 @@ const LoginForm: FC<propTypes> = ({ setCookie, getCookies }) => {
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
-		const { message, booleanValue } = usePasswordRequirements(password);
+		const { message, booleanValue } = addPasswordRequirements(password);
 
 		if (!booleanValue) {
 			return setError(message);
