@@ -15,7 +15,7 @@ const Logout: FC = () => {
 				</button>
 				<button
 					onClick={() => {
-						window.location.href = "/profile/settings";
+						window.location.href = "/profile";
 					}}
 				>
 					No
