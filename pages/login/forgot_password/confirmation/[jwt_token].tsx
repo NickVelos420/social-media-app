@@ -22,7 +22,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 		const verifyJWTRes = await axios.post("http://localhost:4000/verify-jwt", {
 			jwt_token,
 		});
-		console.log(verifyJWTRes.data);
 
 		if (!verifyJWTRes.data?.email)
 			return { redirect: { destination: "/login/forgot_password", permanent: false } };
