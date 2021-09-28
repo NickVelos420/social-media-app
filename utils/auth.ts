@@ -24,3 +24,5 @@ export const addPasswordRequirements = (password: string): passwordReqReturnType
 	}
 	return { message: "none", booleanValue: true };
 };
+
+export const changePassword = () => {};
