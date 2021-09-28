@@ -1,9 +1,9 @@
-import { FormEvent, ChangeEvent, FC, useState } from "react";
+import React, { FormEvent, ChangeEvent, FC, useState } from "react";
 import axios from "axios";
 import { addPasswordRequirements } from "../utils/auth";
 import Link from "next/link";
-import Head from "next/head";
 import { IUseCookiesObject } from "../hooks/useCookies";
+import HideShowEye from "./HideShowEye";
 
 interface propTypes {
 	setCookie: (object: IUseCookiesObject) => void;
@@ -55,16 +55,6 @@ const LoginForm: FC<propTypes> = ({ setCookie, getCookies }) => {
 
 	return (
 		<>
-			<Head>
-				<link
-					rel="stylesheet"
-					href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-					integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
-					crossOrigin="anonymous"
-					referrerPolicy="no-referrer"
-				/>
-			</Head>
-
 			<div style={{ color: "#e01919", fontSize: "1.5rem" }}>{error}</div>
 			<div>
 				<span>Password Validation Rules</span>
@@ -118,15 +108,7 @@ const LoginForm: FC<propTypes> = ({ setCookie, getCookies }) => {
 						onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
 					/>
 
-					{passwordType === "password" ? (
-						<i className="fa fa-eye" onClick={handleShowPassword} style={{ cursor: "pointer" }} />
-					) : (
-						<i
-							className="fa fa-eye-slash"
-							onClick={handleShowPassword}
-							style={{ cursor: "pointer" }}
-						/>
-					)}
+					<HideShowEye onClick={handleShowPassword} inputType={passwordType} />
 				</span>
 				<input type="submit" value="Sign Up" />
 			</form>

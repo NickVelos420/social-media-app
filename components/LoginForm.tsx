@@ -1,8 +1,8 @@
 import { FormEvent, ChangeEvent, FC, useState, useEffect } from "react";
 import axios from "axios";
-import Head from "next/head";
 import Link from "next/link";
 import { IUseCookiesObject } from "../hooks/useCookies";
+import HideShowEye from "./HideShowEye";
 
 interface propTypes {
 	setCookie: (object: IUseCookiesObject) => void;
@@ -69,16 +69,6 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 
 	return (
 		<>
-			<Head>
-				<link
-					rel="stylesheet"
-					href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-					integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
-					crossOrigin="anonymous"
-					referrerPolicy="no-referrer"
-				/>
-			</Head>
-
 			<div style={{ color: "red" }}>{errorMessage}</div>
 
 			<form onSubmit={handleSubmit}>
@@ -108,15 +98,7 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 						onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
 					/>
 
-					{passwordType === "password" ? (
-						<i className="fa fa-eye" onClick={handleShowPassword} style={{ cursor: "pointer" }} />
-					) : (
-						<i
-							className="fa fa-eye-slash"
-							onClick={handleShowPassword}
-							style={{ cursor: "pointer" }}
-						/>
-					)}
+					<HideShowEye onClick={handleShowPassword} inputType={passwordType} />
 				</span>
 				<input type="submit" value="Sign In" />
 			</form>
