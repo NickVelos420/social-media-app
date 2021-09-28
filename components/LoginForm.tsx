@@ -1,6 +1,7 @@
 import { FormEvent, ChangeEvent, FC, useState, useEffect } from "react";
 import axios from "axios";
 import Head from "next/head";
+import Link from "next/link";
 import { IUseCookiesObject } from "../hooks/useCookies";
 
 interface propTypes {
@@ -119,6 +120,7 @@ const LoginForm: FC<propTypes> = ({ setCookie }) => {
 				</span>
 				<input type="submit" value="Sign In" />
 			</form>
+			<Link href="/login/forgot_password">Forgot Password</Link>
 		</>
 	);
 };
