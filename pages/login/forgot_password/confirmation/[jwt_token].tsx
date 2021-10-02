@@ -36,7 +36,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 		console.error(e);
 		return { redirect: { destination: "/login/forgot_password", permanent: false } };
 	}
-	return { props: { hello: "hello" } };
 };
 
 export default jwt_token;
