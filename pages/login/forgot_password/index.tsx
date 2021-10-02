@@ -13,9 +13,16 @@ const index: FC = () => {
 	const [requestHasBeenMade, setRequestHasBeenMade] = useState(false);
 	const [passwordType, setPasswordType] = useState<"password" | "text">("password");
 	const [checkPasswordType, setCheckPasswordType] = useState<"password" | "text">("password");
+	const [theThing, setTheThing] = useState(false);
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
+		if (useCookies({ name: "user", getCookie: true })) return setTheThing(true);
+
+		handleOnClickThing();
+	};
+
+	async function handleOnClickThing() {
 		const { booleanValue, message } = addPasswordRequirements(password);
 		if (!booleanValue) {
 			return setErrorMessage(message);
@@ -23,6 +30,8 @@ const index: FC = () => {
 		if (password !== checkPassword) {
 			return setErrorMessage("Passwords are not the same");
 		}
+
+		useCookies({ name: "user", deleteCookie: true });
 
 		useCookies({
 			name: "temporaryUser",
@@ -39,12 +48,23 @@ const index: FC = () => {
 		} catch (err) {
 			console.error(err);
 		}
-	};
+	}
 
 	if (requestHasBeenMade) {
 		return (
 			<div>
 				<h1>An email must have been sent by now</h1>
+			</div>
+		);
+	}
+
+	if (theThing) {
+		return (
+			<div>
+				<h1>Warning if you accept this action it will automatically log you out</h1>
+				<h3>Do you accept</h3>
+				<button onClick={handleOnClickThing}>Yes</button>
+				<button onClick={() => (window.location.href = "/login")}>No</button>
 			</div>
 		);
 	}
