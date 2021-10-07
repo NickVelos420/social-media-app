@@ -1,6 +1,6 @@
 import { FC } from "react";
 import Layout from "../../../components/Layout";
-import Settings from "../../../components/profile/Settings";
+import Settings from "../../../components/profile/settings/Settings";
 import { redirectIfUserIsntLoggedIn } from "../../../utils/redirectIfIsntLoggedIn";
 
 const settings: FC = () => {
