@@ -1,5 +1,6 @@
 import Router from "next/router";
 import { useCookies } from "../hooks/useCookies";
+import axios from "axios";
 
 export const logout = (cookieName: string) => {
 	useCookies({ name: cookieName, deleteCookie: true });
@@ -23,6 +24,57 @@ export const addPasswordRequirements = (password: string): passwordReqReturnType
 		return { message: "password doesn't match the validation rules", booleanValue: false };
 	}
 	return { message: "none", booleanValue: true };
+};
+
+export const encryptAnything = async (varToEncrypt: any) => {
+	try {
+		const encryptedThing = await axios.post("http://localhost:4000/encrypt-user", {
+			decryptedUser: varToEncrypt,
+		});
+
+		return encryptedThing.data;
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+export const decryptAnything = async (encryptedThing: string) => {
+	console.log(encryptedThing);
+	try {
+		const decryptedThing = await axios.post("http://localhost:4000/decrypt-user", {
+			encryptedUser: encryptedThing,
+		});
+
+		return decryptedThing.data;
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+export const changeUsername = async (newUsername: string, encryptedUser: string) => {
+	try {
+		const decryptedUser = await decryptAnything(encryptedUser);
+		if (!decryptedUser) {
+			return null;
+		}
+		await axios.post("http://localhost:4000/change-username", {
+			email: decryptedUser?.email,
+			newUsername,
+		});
+
+		const newUserObj = {
+			id: decryptedUser.id,
+			email: decryptedUser.email,
+			username: newUsername,
+			password: decryptedUser.password,
+		};
+
+		const newEncryptedUser = await encryptAnything(JSON.stringify(newUserObj));
+
+		return { encryptedUser: newEncryptedUser };
+	} catch (err) {
+		console.error(err);
+	}
 };
 
 export const changePassword = () => {};
