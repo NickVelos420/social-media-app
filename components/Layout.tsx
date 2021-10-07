@@ -17,14 +17,16 @@ const Layout: FC<propTypes> = ({ children, title }) => {
 				<Link href="/profile/settings">
 					<button>settings</button>
 				</Link>
-				<img
-					src={`https://avatars.dicebear.com/api/pixel-art-neutral/${String.fromCharCode(
-						Math.floor(Math.random() * 90)
-					)}.svg`}
-					height="30"
-					width="30"
-					className={`${styles.profilePicture}`}
-				/>
+				<Link href="/profile">
+					<img
+						src={`https://avatars.dicebear.com/api/pixel-art-neutral/${String.fromCharCode(
+							Math.floor(Math.random() * 90)
+						)}.svg`}
+						height="30"
+						width="30"
+						className={`${styles.profilePicture}`}
+					/>
+				</Link>
 			</nav>
 			{children}
 			<style jsx global>
