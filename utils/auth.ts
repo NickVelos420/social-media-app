@@ -77,4 +77,23 @@ export const changeUsername = async (newUsername: string, encryptedUser: string)
 	}
 };
 
-export const changePassword = () => {};
+export const forgotPasswordSendEmail = async (email: string, password: string) => {
+	try {
+		await axios.post(`http://localhost:4000/send-email-change-password`, {
+			to: email,
+		});
+
+		useCookies({ name: "user", deleteCookie: true });
+
+		useCookies({
+			name: "temporaryUser",
+			value: JSON.stringify({ email, password }),
+			writeCookie: true,
+			expirationDate: 0.1,
+		});
+
+		return true;
+	} catch (err) {
+		console.error(err);
+	}
+};
