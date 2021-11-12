@@ -31,3 +31,41 @@ export const getSomeonesCredentialsById = async (id: string) => {
 		return null;
 	}
 };
+
+export const sendFriendRequest = async (senderId: string, receiverId: string) => {
+	try {
+		const res = await axios.post(`http://localhost:4000/send-friend-request`, {
+			senderId,
+			receiverId,
+		});
+
+		if (!res.data) {
+			return null;
+		}
+
+		return res.data;
+	} catch (err) {
+		console.log(err);
+		return null;
+	}
+};
+
+export const rejectFriendRequest = async (senderId: string, receiverId: string) => {
+	try {
+		const res = await axios.delete(`http://localhost:4000/reject-friend-request`, {
+			data: {
+				senderId,
+				receiverId,
+			},
+		});
+
+		if (!res.data) {
+			return null;
+		}
+
+		return res.data;
+	} catch (err) {
+		console.log(err);
+		return null;
+	}
+};
