@@ -97,3 +97,18 @@ export const forgotPasswordSendEmail = async (email: string, password: string) =
 		console.error(err);
 	}
 };
+
+export const getUserObject = async () => {
+	try {
+		const encryptedUser = useCookies({ name: "user", getCookie: true });
+
+		if (!encryptedUser || typeof encryptedUser !== "string") return null;
+
+		const decryptedUser = await decryptAnything(encryptedUser);
+
+		return { id: decryptedUser.id, username: decryptedUser.username, email: decryptedUser.email };
+	} catch (error) {
+		console.error(error);
+		return null;
+	}
+};
