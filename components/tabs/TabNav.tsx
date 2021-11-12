@@ -5,9 +5,10 @@ interface propTypes {
 	tabs: string[];
 	selectedTab: string;
 	setSelectedTab: (tab: string) => void;
+	tabWidth?: string;
 }
 
-const TabNav: FC<propTypes> = ({ children, tabs, selectedTab, setSelectedTab }) => {
+const TabNav: FC<propTypes> = ({ children, tabs, selectedTab, setSelectedTab, tabWidth }) => {
 	return (
 		<div className={styles.container}>
 			<div className={`${styles.tabsContainer}`}>
@@ -20,6 +21,7 @@ const TabNav: FC<propTypes> = ({ children, tabs, selectedTab, setSelectedTab }) 
 							key={tab}
 							className={`${activeTab} ${styles.tab} `}
 							onClick={() => setSelectedTab(tab)}
+							style={{ width: tabWidth || "28vh" }}
 						>
 							<span className={`${styles.tabText} ${nonActiveTabText}`}>{tab}</span>
 						</div>
