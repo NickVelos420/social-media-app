@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getUserObject } from "./auth";
 
 export const getUsersFromSomeOfTheFirstUsernameChars = async (firstUsernameChars: string) => {
 	try {
@@ -58,6 +59,43 @@ export const rejectFriendRequest = async (senderId: string, receiverId: string) 
 				receiverId,
 			},
 		});
+
+		if (!res.data) {
+			return null;
+		}
+
+		return res.data;
+	} catch (err) {
+		console.log(err);
+		return null;
+	}
+};
+
+export const acceptFriendRequest = async (senderId: string, receiverId: string) => {
+	try {
+		const res = await axios.put(`http://localhost:4000/accept-friend-request`, {
+			senderId,
+			receiverId,
+		});
+
+		if (!res.data) return null;
+
+		return res.data;
+	} catch (error) {
+		console.log(error);
+		return null;
+	}
+};
+
+export const getAllFriendRequests = async () => {
+	try {
+		const userObj = await getUserObject();
+
+		if (!userObj) return null;
+
+		const res = await axios.get(
+			`http://localhost:4000/get-all-friend-requests?userId=${userObj.id}`
+		);
 
 		if (!res.data) {
 			return null;
