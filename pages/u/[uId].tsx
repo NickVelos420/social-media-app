@@ -1,4 +1,3 @@
-import axios from "axios";
 import { GetServerSideProps } from "next";
 import { FC, useEffect, useState } from "react";
 import Layout from "../../components/Layout";
@@ -69,7 +68,7 @@ const uId: FC = () => {
 
 			const res = await rejectFriendRequest(senderId, receiverId);
 
-			if (res === "Created") {
+			if (res === "OK") {
 				setSuccessFriendRequest(false);
 				setError("");
 			}
