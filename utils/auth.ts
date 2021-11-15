@@ -39,7 +39,6 @@ export const encryptAnything = async (varToEncrypt: any) => {
 };
 
 export const decryptAnything = async (encryptedThing: string) => {
-	console.log(encryptedThing);
 	try {
 		const decryptedThing = await axios.post("http://localhost:4000/decrypt-user", {
 			encryptedUser: encryptedThing,
