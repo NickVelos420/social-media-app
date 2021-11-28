@@ -107,3 +107,18 @@ export const getAllFriendRequests = async () => {
 		return null;
 	}
 };
+
+//! check if users are friends
+export const checkIfUsersAreFriends = async (user1Id: string, user2Id: string) => {
+	try {
+		const res = await axios.post(`http://localhost:4000/check-if-users-are-friends`, {
+			user1Id,
+			user2Id,
+		});
+
+		return res.data;
+	} catch (err) {
+		console.log(err);
+		return null;
+	}
+};
