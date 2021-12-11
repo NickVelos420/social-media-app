@@ -1,1 +1,1 @@
-This is a messenger application yes it is
+This is a messenger application
