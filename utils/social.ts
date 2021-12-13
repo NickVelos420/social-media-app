@@ -79,7 +79,7 @@ export const acceptFriendRequest = async (senderId: string, receiverId: string) 
 		});
 
 		if (!res.data) return null;
-
+		console.log(res.data);
 		return res.data;
 	} catch (error) {
 		console.log(error);
@@ -108,15 +108,28 @@ export const getAllFriendRequests = async () => {
 	}
 };
 
-//! check if users are friends
-export const checkIfUsersAreFriends = async (user1Id: string, user2Id: string) => {
+export const checkIfUsersAreFriendsAndIfHasSentFR = async (user1Id: string, user2Id: string) => {
+	interface IHasSent_FR_Obj {
+		hasSentRequest: boolean;
+		whoSentRequest: number;
+	}
+
 	try {
-		const res = await axios.post(`http://localhost:4000/check-if-users-are-friends`, {
+		const areFriendsRes = await axios.post(`http://localhost:4000/check-if-users-are-friends`, {
 			user1Id,
 			user2Id,
 		});
 
-		return res.data;
+		if (areFriendsRes.data) return { areFriends: areFriendsRes.data, hasSentFriendRequest: false };
+
+		const hasSentFR = await axios.get(
+			`http://localhost:4000/check-if-user-has-sent-friend-request?senderId=${user1Id}&receiverId=${user2Id}`
+		);
+
+		if (hasSentFR && !areFriendsRes.data)
+			return { areFriends: areFriendsRes.data, hasSent_FR_Obj: hasSentFR.data as IHasSent_FR_Obj };
+
+		return null;
 	} catch (err) {
 		console.log(err);
 		return null;
