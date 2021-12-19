@@ -39,6 +39,7 @@ const WhoHasSentFRProfile: FC<PropTypes> = ({
 				<span>{username}</span>
 				<br />
 				<button onClick={acceptFR}>accept</button>
+				<button onClick={declineFR}>reject</button>
 			</>
 		);
 	}
