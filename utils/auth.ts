@@ -111,3 +111,40 @@ export const getUserObject = async () => {
 		return null;
 	}
 };
+
+//!also log out the user
+export const deleteAccount = async (password: string) => {
+	try {
+		const user = await getUserObject();
+		console.log(user);
+		if (!user) return null;
+
+		const res = await axios.delete("http://localhost:4000/delete-account", {
+			data: { id: user.id, password },
+		});
+
+		switch (res.status) {
+			case 200:
+				logout("user");
+				return { message: "Account deleted successfully", error: false, errorMessage: "" };
+			case 404:
+				return {
+					message: "",
+					error: true,
+					errorMessage:
+						"Either the password or the id is not correct. Please try logging out and in again.",
+				};
+			case 400:
+				return { message: "", error: true, errorMessage: "Password is incorrect" };
+			case 401:
+				return { message: "", error: true, errorMessage: "Wrong password" };
+			case 500:
+				return { message: "", error: true, errorMessage: "Internal server error" };
+			default:
+				return { message: "", error: true, errorMessage: "Unknown error" };
+		}
+	} catch (error) {
+		console.error(error);
+		return null;
+	}
+};
