@@ -3,11 +3,12 @@ import Tab from "../../tabs/Tab";
 import TabNav from "../../tabs/TabNav";
 import Logout from "../Logout";
 import ChangeUsername from "./ChangeUsername";
+import DeleteAccount from "./DeleteAccount";
 import ForgotPassword from "./ForgotPassword";
 
 const Settings: FC = () => {
 	const [selectedTab, setSelectedTab] = useState("");
-	const tabs = ["logout", "change password", "change username"];
+	const tabs = ["logout", "change password", "change username", "delete account"];
 
 	return (
 		<div>
@@ -20,6 +21,9 @@ const Settings: FC = () => {
 				</Tab>
 				<Tab isSelected={selectedTab === "change username"}>
 					<ChangeUsername />
+				</Tab>
+				<Tab isSelected={selectedTab === "delete account"}>
+					<DeleteAccount />
 				</Tab>
 			</TabNav>
 		</div>
