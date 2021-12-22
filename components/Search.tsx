@@ -3,11 +3,22 @@ import { getUsersFromSomeOfTheFirstUsernameChars } from "../utils/social";
 import Link from "next/link";
 import Image from "next/image";
 import loading from "../images/loading.gif";
+import { getUserObject } from "../utils/auth";
 
 const Search: FC = () => {
 	const [username, setUsername] = useState("");
 	const [usersArray, setUsersArray] = useState<{ id: string; username: string }[]>([]);
 	const [typing, setTyping] = useState(false);
+	const [searchersId, setSearchersId] = useState<string>("");
+
+	useEffect(() => {
+		(async () => {
+			const res = await getUserObject();
+			if (res) {
+				setSearchersId(res.id);
+			}
+		})();
+	}, []);
 
 	//* got the code from
 	//* https://dev.to/przemwo/how-to-execute-a-function-only-after-the-user-stops-typing-beh
@@ -18,16 +29,22 @@ const Search: FC = () => {
 		const timeoutId = setTimeout(async () => {
 			if (!username.trim()) return setUsersArray([]);
 
-			const users = await getUsersFromSomeOfTheFirstUsernameChars(username);
+			interface IUsers {
+				id: string;
+				username: string;
+			}
+			type UsersType = IUsers[] | null;
+
+			const users: UsersType = await getUsersFromSomeOfTheFirstUsernameChars(username);
 
 			setTyping(false);
 
-			if (!users) {
+			if (!users || (!users[0].id && !users[0].username)) {
 				setUsersArray([{ id: "", username: "" }]);
 				return null;
 			}
 
-			setUsersArray(users);
+			setUsersArray(users.filter(u => u.id !== searchersId));
 		}, 500);
 
 		return () => clearTimeout(timeoutId);
