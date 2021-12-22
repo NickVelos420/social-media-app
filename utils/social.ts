@@ -8,7 +8,7 @@ export const getUsersFromSomeOfTheFirstUsernameChars = async (firstUsernameChars
 		);
 		console.log(firstUsernameChars);
 		if (!res.data) {
-			return { id: undefined, username: undefined };
+			return { id: "", username: "" };
 		}
 
 		return res.data;
