@@ -1,6 +1,7 @@
 import { GetServerSideProps } from "next";
 import { FC, useEffect, useState } from "react";
 import Layout from "../components/Layout";
+import FRSentByOthersPending from "../components/social/Fr/FRSentByOthersPending";
 import { getUserObject } from "../utils/auth";
 import { redirectIfUserIsntLoggedIn } from "../utils/redirectIfIsntLoggedIn";
 import { acceptFriendRequest, getAllFriendRequests, rejectFriendRequest } from "../utils/social";
@@ -9,6 +10,15 @@ const fr: FC = () => {
 	const [friendRequests, setFriendRequests] = useState<{ id: string; username: string }[]>([]);
 	const [areThereFriendRequests, setAreThereFriendRequests] = useState<boolean>(false);
 	const [receiverId, setReceiverId] = useState("");
+
+	const getFriendRequestAndAddToArray = async () => {
+		const fr = await getAllFriendRequests();
+
+		if (!fr) return setAreThereFriendRequests(false);
+
+		setFriendRequests([...fr]);
+		setAreThereFriendRequests(true);
+	};
 
 	useEffect(() => {
 		(async () => {
@@ -20,12 +30,7 @@ const fr: FC = () => {
 		})();
 
 		(async () => {
-			const fr = await getAllFriendRequests();
-
-			if (!fr) return setAreThereFriendRequests(false);
-
-			setFriendRequests([...fr]);
-			setAreThereFriendRequests(true);
+			await getFriendRequestAndAddToArray();
 		})();
 	}, []);
 
@@ -46,34 +51,24 @@ const fr: FC = () => {
 	const rejectFR = async (senderId: string) => {
 		try {
 			await rejectFriendRequest(senderId, receiverId);
-
-			setFriendRequests(friendRequests.filter(fr => fr.id !== senderId));
 		} catch (error) {
 			console.log(error);
+		} finally {
+			location.reload();
+			return false;
 		}
 	};
 
 	return (
 		<Layout title="Friend Requests">
 			{areThereFriendRequests === false && <h1>You have no friend requests</h1>}
-			{areThereFriendRequests === true &&
-				friendRequests.map(fr => (
-					<div key={fr.id}>
-						{console.log(fr)}
-						<span className="">{fr.username}</span>
-						<button
-							className="btn btn-primary"
-							onClick={() => {
-								acceptFR(fr.id);
-							}}
-						>
-							Accept
-						</button>
-						<button className="btn btn-danger" onClick={() => rejectFR(fr.id)}>
-							Reject
-						</button>
-					</div>
-				))}
+			{areThereFriendRequests === true && (
+				<FRSentByOthersPending
+					friendRequests={friendRequests}
+					acceptFR={acceptFR}
+					rejectFR={rejectFR}
+				/>
+			)}
 		</Layout>
 	);
 };
