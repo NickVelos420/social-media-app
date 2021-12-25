@@ -1,23 +1,40 @@
 import { GetServerSideProps } from "next";
 import { FC, useEffect, useState } from "react";
 import Layout from "../components/Layout";
+import FRSentByMePending from "../components/social/Fr/FRSentByMePending";
 import FRSentByOthersPending from "../components/social/Fr/FRSentByOthersPending";
 import { getUserObject } from "../utils/auth";
 import { redirectIfUserIsntLoggedIn } from "../utils/redirectIfIsntLoggedIn";
-import { acceptFriendRequest, getAllFriendRequests, rejectFriendRequest } from "../utils/social";
+import {
+	acceptFriendRequest,
+	getAllFriendRequests,
+	getFRSentByMe,
+	rejectFriendRequest,
+} from "../utils/social";
 
 const fr: FC = () => {
-	const [friendRequests, setFriendRequests] = useState<{ id: string; username: string }[]>([]);
+	const [FRSentByOthers, setFRSentByOthers] = useState<{ id: string; username: string }[]>([]);
 	const [areThereFriendRequests, setAreThereFriendRequests] = useState<boolean>(false);
 	const [receiverId, setReceiverId] = useState("");
+	const [FRSentByMe, setFRSentByMe] = useState<{ id: string; username: string }[]>([]);
 
 	const getFriendRequestAndAddToArray = async () => {
 		const fr = await getAllFriendRequests();
-
-		if (!fr) return setAreThereFriendRequests(false);
-
-		setFriendRequests([...fr]);
-		setAreThereFriendRequests(true);
+		const frByMe = await getFRSentByMe();
+		console.log(fr);
+		if (fr?.length) {
+			setFRSentByOthers([...fr]);
+			setAreThereFriendRequests(true);
+			if (!frByMe.length || !frByMe) {
+				return;
+			}
+		}
+		if (frByMe?.length) {
+			setFRSentByMe([...frByMe]);
+			setAreThereFriendRequests(true);
+			return;
+		}
+		setAreThereFriendRequests(false);
 	};
 
 	useEffect(() => {
@@ -38,15 +55,14 @@ const fr: FC = () => {
 		try {
 			await acceptFriendRequest(senderId, receiverId);
 
-			setFriendRequests(friendRequests.filter(fr => fr.id !== senderId));
+			setFRSentByOthers(FRSentByOthers.filter(fr => fr.id !== senderId));
 		} catch (error) {
 			console.log(error);
+		} finally {
+			location.reload();
+			return false;
 		}
 	};
-
-	useEffect(() => {
-		if (friendRequests.length === 0) setAreThereFriendRequests(false);
-	}, [friendRequests]);
 
 	const rejectFR = async (senderId: string) => {
 		try {
@@ -58,16 +74,21 @@ const fr: FC = () => {
 			return false;
 		}
 	};
-
+	console.log(areThereFriendRequests);
 	return (
 		<Layout title="Friend Requests">
 			{areThereFriendRequests === false && <h1>You have no friend requests</h1>}
 			{areThereFriendRequests === true && (
-				<FRSentByOthersPending
-					friendRequests={friendRequests}
-					acceptFR={acceptFR}
-					rejectFR={rejectFR}
-				/>
+				<>
+					<h3>Friend Requests Sent By Others</h3>
+					<FRSentByOthersPending
+						friendRequests={FRSentByOthers}
+						acceptFR={acceptFR}
+						rejectFR={rejectFR}
+					/>
+					<h3>Friend Requests Sent By You</h3>
+					<FRSentByMePending friendRequests={FRSentByMe} declineFR={rejectFR} />
+				</>
 			)}
 		</Layout>
 	);
