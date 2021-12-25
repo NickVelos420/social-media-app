@@ -135,3 +135,24 @@ export const checkIfUsersAreFriendsAndIfHasSentFR = async (user1Id: string, user
 		return null;
 	}
 };
+
+export const getFRSentByMe = async () => {
+	try {
+		const userObj = await getUserObject();
+
+		if (!userObj) return null;
+
+		const res = await axios.get(
+			`http://localhost:4000/get-friend-requests-sent-by-me?userId=${userObj.id}`
+		);
+
+		if (!res.data) {
+			return null;
+		}
+		console.log(res.data);
+		return res.data;
+	} catch (error) {
+		console.error(error);
+		return null;
+	}
+};
